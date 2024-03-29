@@ -1,55 +1,74 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
 using UnityEngine.UI;
 
-public class ZoomInZoomOut : MonoBehaviour
+public class MapZoom : MonoBehaviour
 {
+    private bool _isDragging;
+    private float _currentScale;
+    public float minScale, maxScale;
+    private float _temp;
+    private float _scalingRate = 2;
 
-    Camera mainCamera;
-
-    float touchesPrevPosDifference, touchesCurPosDifference, zoomModifier;
-
-    Vector2 firstTouchPrevPos, secondTouchPrevPos;
-
-    [SerializeField]
-    float zoomModifierSpeed = 0.1f;
-
-    [SerializeField]
-    Text text;
-
-    // Use this for initialization
-    void Start()
+    private void Start()
     {
-        mainCamera = GetComponent<Camera>();
+        Debug.Log("sm");
+        _currentScale = transform.localScale.x;
     }
 
-    // Update is called once per frame
-    void Update()
+    //public void OnPointerDown(PointerEventData eventData)
+    //{
+    //    Debug.Log("Touch supported" + Input.touchSupported);
+    //    Debug.Log("Touch num" + Input.touchCount);
+    //    if (Input.touchCount == 1)
+    //    {
+    //        Debug.Log("sm2");
+    //        _isDragging = true;
+
+    //    }
+    //}
+
+
+    //public void OnPointerUp(PointerEventData eventData)
+    //{
+    //    Debug.Log("sm3");
+    //    _isDragging = false;
+    //}
+
+
+    private void Update()
     {
-
-        if (Input.touchCount == 2)
+        if(Input.touchCount > 0)
         {
-            Touch firstTouch = Input.GetTouch(0);
-            Touch secondTouch = Input.GetTouch(1);
+            Debug.Log(Input.touchCount);
+        }
+        
+        if (_isDragging)
+        {
+            if (Input.touchCount == 2)
+            {
+                transform.localScale = new Vector2(_currentScale, _currentScale);
+                float distance = Vector3.Distance(Input.GetTouch(0).position, Input.GetTouch(1).position);
+                if (_temp > distance)
+                {
+                    if (_currentScale < minScale)
+                        return;
+                    _currentScale -= (Time.deltaTime) * _scalingRate;
+                }
 
-            firstTouchPrevPos = firstTouch.position - firstTouch.deltaPosition;
-            secondTouchPrevPos = secondTouch.position - secondTouch.deltaPosition;
+                else if (_temp < distance)
+                {
+                    if (_currentScale >= maxScale)
+                        return;
+                    _currentScale += (Time.deltaTime) * _scalingRate;
+                }
 
-            touchesPrevPosDifference = (firstTouchPrevPos - secondTouchPrevPos).magnitude;
-            touchesCurPosDifference = (firstTouch.position - secondTouch.position).magnitude;
+                _temp = distance;
+            }
 
-            zoomModifier = (firstTouch.deltaPosition - secondTouch.deltaPosition).magnitude * zoomModifierSpeed;
-
-            if (touchesPrevPosDifference > touchesCurPosDifference)
-                mainCamera.orthographicSize += zoomModifier;
-            if (touchesPrevPosDifference < touchesCurPosDifference)
-                mainCamera.orthographicSize -= zoomModifier;
 
         }
 
-        mainCamera.orthographicSize = Mathf.Clamp(mainCamera.orthographicSize, 2f, 10f);
-        text.text = "Camera size " + mainCamera.orthographicSize;
-
     }
+
 }
