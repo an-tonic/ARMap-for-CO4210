@@ -32,6 +32,7 @@ public class SwitchUI : MonoBehaviour
 
         // Apply the new scale
         mapsContentRectTransform.localScale = new Vector3(newScale, newScale, 1f);
+
     }
     public void ZoomOut()
     {
