@@ -468,7 +468,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &351309246
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1729,7 +1729,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1684183905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1992,9 +1992,9 @@ MonoBehaviour:
   arSession: {fileID: 702413256}
   panelWithButtons: {fileID: 50618429}
   mapsContentRectTransform: {fileID: 1553500800}
-  zoomSpeed: 0.1
+  zoomSpeed: 0.5
   minZoom: 0.5
-  maxZoom: 2
+  maxZoom: 10
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
